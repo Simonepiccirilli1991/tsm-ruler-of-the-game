@@ -1,6 +1,7 @@
 package com.tsm.rule.reseller.controller;
 
 import com.tsm.rule.reseller.io.request.CartePokemonRequest;
+import com.tsm.rule.reseller.io.response.BaseResponse;
 import com.tsm.rule.reseller.model.entity.CartePokemon;
 import com.tsm.rule.reseller.reactivewrapper.PokemonWrapperService;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +24,15 @@ public class PokemonController {
     @GetMapping("/get/{codiceOggetto}")
     public Mono<CartePokemon> getCartaPokemon(@PathVariable("codiceOggetto") String codiceOggetto){
         return pokemonService.getCartePokemon(codiceOggetto);
+    }
+
+    @PatchMapping("/patch/{chiaveOggetto}")
+    public Mono<CartePokemon> patchCartaPokemon(@PathVariable String chiaveOggetto,@RequestBody CartePokemonRequest request){
+        return pokemonService.patchCartePokemon(request,chiaveOggetto);
+    }
+
+    @DeleteMapping("delete/{chiaveOggetto}")
+    public Mono<BaseResponse> deleteCartaPokemon(@PathVariable String chiaveOggetto){
+        return pokemonService.deleteCartePokemon(chiaveOggetto);
     }
 }

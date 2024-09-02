@@ -1,6 +1,7 @@
 package com.tsm.rule.reseller.reactivewrapper;
 
 import com.tsm.rule.reseller.io.request.CartePokemonRequest;
+import com.tsm.rule.reseller.io.response.BaseResponse;
 import com.tsm.rule.reseller.model.entity.CartePokemon;
 import com.tsm.rule.reseller.service.CartePokemonService;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,14 @@ public class PokemonWrapperService {
 
     private final CartePokemonService cartePokemonService;
     private final ExecutorService executorService;
+
+
     //save
     public Mono<CartePokemon> saveCartePokemon(CartePokemonRequest request){
         log.info("WrapperInitialize for saveCartePokemon");
 
         return Mono.fromCallable(() -> {
-            log.info("Starting subcribing from callable");
+            log.info("Starting subcribing from callable x save pkm");
             return cartePokemonService.saveCartaPokemon(request);
         })
                 .subscribeOn(Schedulers.fromExecutor(executorService))
@@ -37,11 +40,37 @@ public class PokemonWrapperService {
         log.info("WrapperInitialize for getCartaPokemon");
 
         return Mono.fromCallable(() -> {
-                    log.info("Starting subcribing  get from callable");
+                    log.info("Starting subcribing  get from callable x get pkm");
                     return cartePokemonService.getCartaPokemonChiave(codiceOggetto);
                 })
                 .subscribeOn(Schedulers.fromExecutor(executorService))
                 .doOnSuccess(resp -> log.info("Wrapper for getCartaPokemon ended Successfully"))
                 .onErrorResume(err -> Mono.error(err));
+    }
+    // patch
+    public Mono<CartePokemon> patchCartePokemon(CartePokemonRequest request,String chiaveOggetto){
+        log.info("WrapperInitialize for patchCartePokemon");
+
+        return Mono.fromCallable(() -> {
+                    log.info("Starting subcribing from callable x patch pkm");
+                    return cartePokemonService.patchCartePokemon(request,chiaveOggetto);
+                })
+                .subscribeOn(Schedulers.fromExecutor(executorService))
+                .doOnSuccess(resp -> log.info("Wrapper for patchCartePokemon ended Successfully"))
+                .onErrorResume(err -> Mono.error(err));
+    }
+    // delete
+    public Mono<BaseResponse> deleteCartePokemon(String chiaveOggetto){
+        log.info("WrapperInitialize for deleteCartePokemon");
+
+        return Mono.fromCallable(() -> {
+                    log.info("Starting subcribing from callable x delete pkm");
+                    return cartePokemonService.deleteCartaPokemon(chiaveOggetto);
+                })
+                .subscribeOn(Schedulers.fromExecutor(executorService))
+                .doOnSuccess(resp -> log.info("Wrapper for deleteCartePokemon ended Successfully"))
+                .onErrorResume(err -> Mono.error(err));
+
+
     }
 }

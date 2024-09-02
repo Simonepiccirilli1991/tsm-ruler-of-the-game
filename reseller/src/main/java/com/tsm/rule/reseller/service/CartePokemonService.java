@@ -2,6 +2,7 @@ package com.tsm.rule.reseller.service;
 
 import com.tsm.rule.reseller.exception.ResellerException;
 import com.tsm.rule.reseller.io.request.CartePokemonRequest;
+import com.tsm.rule.reseller.io.response.BaseResponse;
 import com.tsm.rule.reseller.model.entity.CartePokemon;
 import com.tsm.rule.reseller.repo.CartaPokemonRepo;
 import jakarta.transaction.Transactional;
@@ -98,6 +99,16 @@ public class CartePokemonService {
     //delete
     @Transactional
     public BaseResponse deleteCartaPokemon(String chiaveOggetto){
+        log.info("DeleteCartaPokemon service started for chiave: {}",chiaveOggetto);
 
+        var entity = cartaPokemonRepo.findByChiaveOggetto(chiaveOggetto)
+                .orElseThrow(() -> {
+                    log.error("Error on deleteCartaPokemon, missing entity");
+                    return new ResellerException("Error on deleteCartaPokemon service",null,"Missing entity");
+                });
+
+        cartaPokemonRepo.delete(entity);
+        log.info("DeleteCartaPokemon service ended successfully");
+        return new BaseResponse("Deleted successfully","00");
     }
 }
