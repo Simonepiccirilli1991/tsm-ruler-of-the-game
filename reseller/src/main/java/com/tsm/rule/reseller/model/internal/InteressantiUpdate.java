@@ -3,7 +3,7 @@ package com.tsm.rule.reseller.model.internal;
 import jakarta.persistence.Embeddable;
 import lombok.Data;
 
-@Embeddable
+//@Embeddable
 @Data
 public class InteressantiUpdate {
 

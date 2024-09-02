@@ -1,7 +1,7 @@
 package com.tsm.rule.reseller.model.entity;
 
 import com.tsm.rule.reseller.model.base.AcquistoBase;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity(name = "cartePokemon")
@@ -19,4 +19,5 @@ public class CartePokemon extends AcquistoBase {
     // dove ho acquistato oggetto
     private String acquistatoPresso;
     private Integer quantitaDisponibile;
+
 }
