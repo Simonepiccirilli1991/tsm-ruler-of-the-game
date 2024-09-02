@@ -13,6 +13,7 @@ import org.springframework.util.ObjectUtils;
 import java.time.format.DateTimeFormatter;
 
 import static com.tsm.rule.reseller.utils.ResellesUtils.generaChiaveOggetto;
+import static com.tsm.rule.reseller.utils.ResellesUtils.updateCartePokemonEntity;
 
 @Service
 @Slf4j
@@ -55,6 +56,7 @@ public class CartePokemonService {
         return resp;
     }
     //get
+    @Transactional
     public CartePokemon getCartaPokemonChiave(String chiaveOggetto){
         log.info("GetCartaPokemon con chiave started with chiaveOggetto: {}",chiaveOggetto);
         var entity = cartaPokemonRepo.findByChiaveOggetto(chiaveOggetto)
@@ -65,5 +67,37 @@ public class CartePokemonService {
 
         log.info("GetCartaPokemon service ended successfully");
         return entity;
+    }
+    //patch
+    @Transactional
+    public CartePokemon patchCartePokemon(CartePokemonRequest request,String chiaveOggetto){
+
+        log.info("PatchCartePokemon service started with raw request: {} , and chiave: {}",request,chiaveOggetto);
+
+        request.validatePatch();
+
+        var entity = cartaPokemonRepo.findByChiaveOggetto(chiaveOggetto)
+                .orElseThrow(() -> {
+                    log.error("Errror on PatchCartePokemonService , missing entity");
+                    return new ResellerException("Error on patch cartePokemon",null,"Missing entity");
+                });
+
+        var originalCosto = entity.getCostoTotale();
+        var quantitaOriginale = entity.getQuantita();
+        //updato entity
+        updateCartePokemonEntity(request,entity);
+        // se e cambiata la quantita o il totale devo aggiornate il costo singolo
+        if(originalCosto != entity.getCostoTotale() || quantitaOriginale != entity.getQuantita())
+            entity.setCostoSingolo((entity.getCostoTotale() / entity.getQuantita()));
+
+        //NOTA BENE, per il momento non  tocco il disponibile se modifico quantita
+        var resp = cartaPokemonRepo.save(entity);
+        log.info("PatchCartaPokemonService ended successfully");
+        return resp;
+    }
+    //delete
+    @Transactional
+    public BaseResponse deleteCartaPokemon(String chiaveOggetto){
+
     }
 }

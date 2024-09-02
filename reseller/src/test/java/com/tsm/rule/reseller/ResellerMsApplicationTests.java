@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicReference;
 
 @SpringBootTest
 class ResellerMsApplicationTests {
@@ -35,6 +36,26 @@ class ResellerMsApplicationTests {
 		var resp = cartePokemonService.getCartaPokemonChiave(chiave);
 
 		Assertions.assertTrue("online".equals(resp.getAcquistatoPresso()));
+	}
+
+	@Test
+	void saveCartaAndGetWrapperServiceOK(){
+
+		var request = new CartePokemonRequest("Etb falso", LocalDateTime.now(),200.00,4,
+				"1233gg", TipiProdotto.PRODOTTO_SEALED,true,false,false,null,"online");
+
+		// Chain the operations with flatMap
+		pokemonWrapperService.saveCartePokemon(request)
+				.flatMap(entity -> {
+					var chiave = entity.getChiaveOggetto();
+					Assertions.assertTrue(!ObjectUtils.isEmpty(chiave));
+					return pokemonWrapperService.getCartePokemon(chiave);
+				})
+				.doOnNext(resp -> {
+					var tipoAcquisto = resp.getAcquistatoPresso();
+					Assertions.assertEquals("online", tipoAcquisto);
+				})
+				.block();
 	}
 
 }
