@@ -18,6 +18,5 @@ public class CartePokemon extends AcquistoBase {
     private String gradeValue; // psa 10 bgs 3 etc
     // dove ho acquistato oggetto
     private String acquistatoPresso;
-    private Integer quantitaDisponibile;
 
 }

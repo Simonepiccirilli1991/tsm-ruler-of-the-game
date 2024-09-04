@@ -23,4 +23,6 @@ public abstract class AcquistoBase {
     private Double costoSingolo;
     @Column(nullable = false)
     private int quantita;// quantita acquistata
+    private Integer quantitaDisponibile;
+    private String note;
 }

@@ -5,7 +5,8 @@ public enum TipiProdotto {
 
     CARTA_SINGOLA("Carta singola"),
     PRODOTTO_SEALED("Prodotto sealed"),
-    PRODOTTO_NO_SEALED("Prodotto non sealed");
+    PRODOTTO_NO_SEALED("Prodotto non sealed"),
+    PRODOTTO_USATO("Prodotto usato");
 
 
     private String value;

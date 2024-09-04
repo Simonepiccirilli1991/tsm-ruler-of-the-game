@@ -1,11 +1,9 @@
 package com.tsm.rule.reseller.model.base;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
+@MappedSuperclass// usato per far mappare la classe astratta da l'entity
 @Data
 public abstract class VenditaBase {
 

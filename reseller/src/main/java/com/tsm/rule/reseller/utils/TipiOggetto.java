@@ -1,12 +1,22 @@
 package com.tsm.rule.reseller.utils;
 
+import lombok.Getter;
+
+@Getter
 public enum TipiOggetto {
 
-    POKEMON(),
-    LEGO(),
-    MEGAZORD(),
-    STITCH(),
-    DISNEY(),
-    ONEPICE(),
-    GENERICO();
+    COSTRUZIONI("Costruzioni"),
+    CARTA("Carta"),
+    TAZZE("Tazze"),
+    LIBRO("Libro"),
+    GENERICO("Generico"),
+    CUSTOM("Custom");
+
+    private String value;
+
+    TipiOggetto(String value) {
+        this.value = value;
+    }
+
+
 }
