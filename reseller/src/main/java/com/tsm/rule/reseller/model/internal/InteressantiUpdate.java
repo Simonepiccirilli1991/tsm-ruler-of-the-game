@@ -12,4 +12,10 @@ public class InteressantiUpdate {
     private Double ultimoVenduto;
     private String dataVenduto;
     private String valoreAttualeComparato; // per vedere se e salito o sceso, mettiamo percentuale
+
+
+
+    public void validateUpdate(){
+
+    }
 }
