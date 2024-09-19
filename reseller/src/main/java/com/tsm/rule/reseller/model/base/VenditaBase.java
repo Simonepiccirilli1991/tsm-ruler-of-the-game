@@ -23,5 +23,5 @@ public abstract class VenditaBase {
     @Column(nullable = false)
     private Double nettoTotale;
     @Column(nullable = false)
-    private String keyAcquisto;
+    private String chiaveAcquisto;
 }
