@@ -188,7 +188,7 @@ public class VenditaService {
             scope.fork(() -> oggettoGenericoRepo.save(finalAcquisto));
         }
         // chiamo metodo che torna oggetto se no si incazza malamente, scoprire perche, ma contando che euna previuw
-        var finalTask = scope.fork(() -> deleteVendita(vendita));
+        var finalTask = scope.fork(() -> deleteVenditaCall(vendita));
         // joino e twowo se faila
         scope.join().throwIfFailed();
         // prendo resp, loggo e torno
@@ -218,7 +218,7 @@ public class VenditaService {
     }
 
     // ho dovuto mettere sta cosa qua perche deve tornare per foza un cazzo di oggetto se uso scope
-    private BaseResponse deleteVendita(Vendita vendita){
+    private BaseResponse deleteVenditaCall(Vendita vendita){
         venditaRepo.delete(vendita);
         return new BaseResponse("Deleted successfully","00");
     }
