@@ -6,6 +6,7 @@ import com.tsm.rule.reseller.io.response.BaseResponse;
 import com.tsm.rule.reseller.model.entity.CartePokemon;
 import com.tsm.rule.reseller.service.pokemon.CartePokemonService;
 import com.tsm.rule.reseller.service.pokemon.FilteringPokemonService;
+import com.tsm.rule.reseller.service.pokemon.VenditaPokemonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class PokemonWrapperService {
     private final ExecutorService executorService;
 
 
-    //save
+    //save acquisto pokemon
     public Mono<CartePokemon> saveCartePokemon(CartePokemonRequest request){
         log.info("WrapperInitialize for saveCartePokemon");
 
@@ -38,7 +39,7 @@ public class PokemonWrapperService {
                 .doOnSuccess(resp -> log.info("Wrapper for saveCartePokemon ended Successfully"))
                 .onErrorResume(err -> Mono.error(err));
     }
-    //get
+    //get acquisto pokemon
     public Mono<CartePokemon> getCartePokemon(String codiceOggetto){
         log.info("WrapperInitialize for getCartaPokemon");
 
@@ -50,7 +51,7 @@ public class PokemonWrapperService {
                 .doOnSuccess(resp -> log.info("Wrapper for getCartaPokemon ended Successfully"))
                 .onErrorResume(err -> Mono.error(err));
     }
-    // patch
+    // patch acquisto pokemon
     public Mono<CartePokemon> patchCartePokemon(CartePokemonRequest request,String chiaveOggetto){
         log.info("WrapperInitialize for patchCartePokemon");
 
@@ -62,7 +63,7 @@ public class PokemonWrapperService {
                 .doOnSuccess(resp -> log.info("Wrapper for patchCartePokemon ended Successfully"))
                 .onErrorResume(Mono::error);
     }
-    // delete
+    // delete acquisto carte pokemon
     public Mono<BaseResponse> deleteCartePokemon(String chiaveOggetto){
         log.info("WrapperInitialize for deleteCartePokemon");
 
