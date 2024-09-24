@@ -1,4 +1,4 @@
-package com.tsm.rule.reseller.service;
+package com.tsm.rule.reseller.service.interessanti;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

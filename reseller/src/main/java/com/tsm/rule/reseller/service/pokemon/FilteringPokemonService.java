@@ -1,4 +1,4 @@
-package com.tsm.rule.reseller.service;
+package com.tsm.rule.reseller.service.pokemon;
 
 import com.tsm.rule.reseller.io.request.FilteringPokemonRequest;
 import com.tsm.rule.reseller.model.entity.CartePokemon;

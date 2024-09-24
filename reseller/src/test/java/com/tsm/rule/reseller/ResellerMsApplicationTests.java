@@ -2,7 +2,7 @@ package com.tsm.rule.reseller;
 
 import com.tsm.rule.reseller.io.request.CartePokemonRequest;
 import com.tsm.rule.reseller.reactivewrapper.PokemonWrapperService;
-import com.tsm.rule.reseller.service.CartePokemonService;
+import com.tsm.rule.reseller.service.pokemon.CartePokemonService;
 import com.tsm.rule.reseller.utils.TipiProdotto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.atomic.AtomicReference;
 
 @SpringBootTest
 class ResellerMsApplicationTests {

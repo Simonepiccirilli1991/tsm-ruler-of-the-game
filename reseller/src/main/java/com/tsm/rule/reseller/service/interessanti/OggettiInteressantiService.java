@@ -1,4 +1,4 @@
-package com.tsm.rule.reseller.service;
+package com.tsm.rule.reseller.service.interessanti;
 
 import com.tsm.rule.reseller.exception.ResellerException;
 import com.tsm.rule.reseller.io.request.OggettiInteressantiRequest;

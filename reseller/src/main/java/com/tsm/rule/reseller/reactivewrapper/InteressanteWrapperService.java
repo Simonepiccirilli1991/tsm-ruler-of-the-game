@@ -4,7 +4,7 @@ import com.tsm.rule.reseller.io.request.OggettiInteressantiRequest;
 import com.tsm.rule.reseller.io.response.BaseResponse;
 import com.tsm.rule.reseller.model.entity.OggettiInteressati;
 import com.tsm.rule.reseller.model.internal.InteressantiUpdate;
-import com.tsm.rule.reseller.service.OggettiInteressantiService;
+import com.tsm.rule.reseller.service.interessanti.OggettiInteressantiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -3,7 +3,7 @@ package com.tsm.rule.reseller.reactivewrapper;
 import com.tsm.rule.reseller.io.request.OggettiGenericiRequest;
 import com.tsm.rule.reseller.io.response.BaseResponse;
 import com.tsm.rule.reseller.model.entity.OggettoGenerico;
-import com.tsm.rule.reseller.service.OggettiGenericiServici;
+import com.tsm.rule.reseller.service.generici.OggettiGenericiServici;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
