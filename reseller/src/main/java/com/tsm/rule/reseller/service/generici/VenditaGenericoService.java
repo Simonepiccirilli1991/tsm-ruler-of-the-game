@@ -2,6 +2,7 @@ package com.tsm.rule.reseller.service.generici;
 
 import com.tsm.rule.reseller.exception.ResellerException;
 import com.tsm.rule.reseller.io.request.VenditaGenericaRequest;
+import com.tsm.rule.reseller.io.response.BaseResponse;
 import com.tsm.rule.reseller.model.entity.OggettoGenerico;
 import com.tsm.rule.reseller.model.entity.VenditaGenerica;
 import com.tsm.rule.reseller.repo.OggettoGenericoRepo;
@@ -63,5 +64,55 @@ public class VenditaGenericoService {
             throw new ResellerException("Error on saveVeneditaGenerico",e,e.getMessage());
         }
     }
+
+
+    public VenditaGenerica getVenditaGenerica(Integer idVenditaGen){
+        log.info("GetVenditaGenerica service started");
+        var vendita = venditaGenericaRepo.findById(idVenditaGen)
+                .orElseThrow(() -> {
+                    log.error("Error on GetVenditaGenerica service, missing vendita");
+                    return new ResellerException("Error on GEtVenditaGenerica",null,"Missing vendita generica");
+                });
+        log.info("GetVenditaGenerica service ended successfully");
+        return vendita;
+    }
+
+    public BaseResponse deleteVenditaGenerica(Integer idVenditaGen){
+        log.info("DeleteVenditaGenerica service started");
+        // retrivo vendita
+        var vendita = venditaGenericaRepo.findById(idVenditaGen)
+                .orElseThrow(() -> {
+                    log.error("Error on deleteVenditaGenerica service, missing vendita");
+                    return new ResellerException("Error on deleteVenditaGenerica",null,"Missing vendita generica");
+                });
+        // retrivo acquisto con key vendita
+        var acquisto = oggettoGenericoRepo.findByChiaveOggetto(vendita.getChiaveAcquisto())
+                .orElseThrow(() ->{
+                    log.error("Error on deleteVenditaGenerica service, missing acquisto");
+                    return new ResellerException("Error on deleteVenditaGenerica",null,"Missing acquisto generica");
+                });
+        // restoro la quantita
+        acquisto.setQuantitaDisponibile((acquisto.getQuantitaDisponibile()) + vendita.getQuantita());
+        //updato e delite con subtask
+        try(var scope = new StructuredTaskScope.ShutdownOnFailure()){
+            // uodato
+            scope.fork(() -> oggettoGenericoRepo.save(acquisto));
+            //deleto
+            var deleteTask = scope.fork(() -> deleteVendita(vendita));
+            // joino
+            scope.join().throwIfFailed();
+            //torno resp
+            var resp = deleteTask.get();
+            log.info("DeleteVenditaGenerica service ended successfully");
+            return resp;
+        }catch (Exception e){
+            log.error("Error on deleteVenditaGenerica with errir: {}",e.getMessage());
+            throw new ResellerException("Error on deleteVenditaGenerica",e,e.getMessage());
+        }
+    }
+
+    private BaseResponse deleteVendita(VenditaGenerica venditaGen){
+        venditaGenericaRepo.delete(venditaGen);
+        return new BaseResponse("Deleted successuflly","00");
+    }
 }
-    //TODO: INSERIRE GET E DELETE POI TEST
