@@ -51,7 +51,7 @@ public class ResellesUtils {
         setIfPresent(request.acquistatoDa(), oggetto::setAcquistatoDa);
         setIfPresent(request.quantita(), oggetto::setQuantitaDisponibile);
         setIfPresent(request.note(), oggetto::setNote);
-        setIfPresent(request.brandAssociato().getValue(), oggetto::setBrandAssociato);
+        setIfPresent(request.brandAssociato(),brandAssociato ->  oggetto.setBrandAssociato(brandAssociato.getValue()));
     }
 
     public static void updateCartePokemonEntity(CartePokemonRequest request, CartePokemon entity) {
