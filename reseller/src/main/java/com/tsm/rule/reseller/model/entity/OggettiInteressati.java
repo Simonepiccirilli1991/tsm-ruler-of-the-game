@@ -25,7 +25,7 @@ public class OggettiInteressati {
     private String dataIniziale;
     @Column(nullable = false)
     private Double prezzoIniziale;
-    @Embedded
+    @ElementCollection
     private List<InteressantiUpdate> updates = new ArrayList<>();
 
 }

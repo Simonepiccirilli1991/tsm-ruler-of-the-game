@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.time.format.DateTimeFormatter;
 
@@ -29,8 +30,9 @@ public class OggettiGenericiServici {
         request.validateSave();
 
         var entity =(OggettoGenerico) mapperObject(request,OggettoGenerico.class);
-        //TODO: non so se il mapper mappa in automatico anche gli enum, controllare
-
+        // devo calcolare il costo singolo
+        var costoSingolo = (ObjectUtils.isEmpty(request.quantita()) || request.quantita() == 1) ? request.costoTotale() : (request.costoTotale() / request.quantita());
+        entity.setCostoSingolo(costoSingolo);
         // setto chiave oggetto
         var chiave = generaChiaveOggetto(request.nome(), request.data().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         entity.setChiaveOggetto(chiave);
