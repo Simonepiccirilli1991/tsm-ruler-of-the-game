@@ -49,6 +49,10 @@ public class VenditaGenericoService {
         vendita.setEntrataSingola(nettoSingolo);
         // updato l'aviable del acquisto
         acquisto.setQuantitaDisponibile((acquisto.getQuantitaDisponibile()) - request.quantita());
+        // setto vari enum
+        vendita.setBrandAssociato(request.brandAssociato().getValue());
+        vendita.setTipoDiOggetto(request.tipoDiOggetto().getValue());
+        vendita.setVendutoSu(request.vendutoSu().getValue());
         //salvo la vendigta e l'update dell'acquisto
         try(var scope = new StructuredTaskScope.ShutdownOnFailure()){
             // updato acquisto

@@ -33,9 +33,12 @@ public class OggettiGenericiServici {
         // devo calcolare il costo singolo
         var costoSingolo = (ObjectUtils.isEmpty(request.quantita()) || request.quantita() == 1) ? request.costoTotale() : (request.costoTotale() / request.quantita());
         entity.setCostoSingolo(costoSingolo);
+        // setto gli enum
         entity.setTipoOggetto(request.tipoOggetto().getValue());
         entity.setTipoProdotto(request.tipiProdotto().name());
         entity.setBrandAssociato(request.brandAssociato().getValue());
+        // setto quantita disponibile
+        entity.setQuantitaDisponibile(request.quantita());
         // setto chiave oggetto
         var chiave = generaChiaveOggetto(request.nome(), request.data().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         entity.setChiaveOggetto(chiave);
