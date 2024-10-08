@@ -101,5 +101,5 @@ public class OggettiGenericiServiceTest {
         Assertions.assertEquals(2,updateAcq.getQuantitaDisponibile());
     }
 
-    //TODO: c'e da testare la get di vendita e la delete con rollback su acquisto
+    //TODO: c'e da testare la get di vendita e la delete con rollback su acquistox
 }
