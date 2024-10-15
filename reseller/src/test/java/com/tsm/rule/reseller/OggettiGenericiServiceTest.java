@@ -81,14 +81,14 @@ public class OggettiGenericiServiceTest {
     // -------------------- VENDITE ------------------
     @Test
     void saveVenditaAndGetTestOK(){
-        var request =  new OggettiGenericiRequest("Tazza Hallowen","tazza ceramica", LocalDateTime.now(),
-                6.90, 4, TipiOggetto.GENERICO, TipiProdotto.PRODOTTO_SEALED, BrandAssociati.GENERICO,
+        var request =  new OggettiGenericiRequest("Tazza Hallowen scheletro","tazza ceramica scheletro", LocalDateTime.now(),
+                4.90, 4, TipiOggetto.GENERICO, TipiProdotto.PRODOTTO_SEALED, BrandAssociati.GENERICO,
                 true, "Cossuto");
 
         var acquisto = oggettiGenericiServici.salvaOggettoGenerico(request);
         Assertions.assertFalse(ObjectUtils.isEmpty(acquisto.getChiaveOggetto()));
 
-        var vednitaRequest = new VenditaGenericaRequest("Tazza Hallowen",LocalDateTime.now(),2,28.00,
+        var vednitaRequest = new VenditaGenericaRequest("Tazza Hallowen scheletro",LocalDateTime.now(),2,28.00,
                 null, acquisto.getChiaveOggetto(), PiattaformeVendita.VINTED,null,BrandAssociati.GENERICO,TipiOggetto.TAZZE);
         // chiamo salva vendita
         var vendita = venditaGenericoService.saveVenditaGenerica(vednitaRequest);
@@ -101,5 +101,47 @@ public class OggettiGenericiServiceTest {
         Assertions.assertEquals(2,updateAcq.getQuantitaDisponibile());
     }
 
-    //TODO: c'e da testare la get di vendita e la delete con rollback su acquistox
+    @Test
+    void saveVenditaAndGetVenditaTestOK(){
+        var request =  new OggettiGenericiRequest("Tazza Paperino 12","tazza ceramica", LocalDateTime.now(),
+                6.90, 4, TipiOggetto.GENERICO, TipiProdotto.PRODOTTO_SEALED, BrandAssociati.GENERICO,
+                true, "Cossuto");
+
+        var acquisto = oggettiGenericiServici.salvaOggettoGenerico(request);
+        Assertions.assertFalse(ObjectUtils.isEmpty(acquisto.getChiaveOggetto()));
+
+        var vednitaRequest = new VenditaGenericaRequest("Tazza Paperino 12",LocalDateTime.now(),2,28.00,
+                null, acquisto.getChiaveOggetto(), PiattaformeVendita.VINTED,null,BrandAssociati.GENERICO,TipiOggetto.TAZZE);
+        // chiamo salva vendita
+        var vendita = venditaGenericoService.saveVenditaGenerica(vednitaRequest);
+        Assertions.assertTrue(vendita.getBrandAssociato().equals(BrandAssociati.GENERICO.getValue()));
+
+        var getVendita = venditaGenericoService.getVenditaGenerica(vendita.getId());
+        Assertions.assertEquals("Tazza Paperino 12",getVendita.getNome());
+    }
+
+    @Test
+    void deleteVenditaAndRollBTestOK(){
+
+        var request =  new OggettiGenericiRequest("Puzzle Stitch","puzzle", LocalDateTime.now(),
+                7.00, 1, TipiOggetto.GENERICO, TipiProdotto.PRODOTTO_SEALED, BrandAssociati.DISNEY,
+                true, "Amazon");
+
+        var acquisto = oggettiGenericiServici.salvaOggettoGenerico(request);
+        Assertions.assertFalse(ObjectUtils.isEmpty(acquisto.getChiaveOggetto()));
+
+        var vednitaRequest = new VenditaGenericaRequest("Puzzle Stitch",LocalDateTime.now(),1,28.00,
+                null, acquisto.getChiaveOggetto(), PiattaformeVendita.VINTED,null,BrandAssociati.DISNEY,TipiOggetto.GENERICO);
+        // chiamo salva vendita
+        var vendita = venditaGenericoService.saveVenditaGenerica(vednitaRequest);
+        Assertions.assertTrue(vendita.getBrandAssociato().equals(BrandAssociati.DISNEY.getValue()));
+
+        var updateAcq = oggettiGenericiServici.getOggettoGenerico(acquisto.getChiaveOggetto());
+        Assertions.assertEquals(0,updateAcq.getQuantitaDisponibile());
+        // delete vendita
+        venditaGenericoService.deleteVenditaGenerica(vendita.getId());
+        // checko rollback value
+        var updateAcqFinale = oggettiGenericiServici.getOggettoGenerico(acquisto.getChiaveOggetto());
+        Assertions.assertEquals(1,updateAcqFinale.getQuantitaDisponibile());
+    }
 }
