@@ -32,7 +32,7 @@ public class GenericiInteraction {
         var userPromptTemplate = new PromptTemplate(richiestaUtente);
         var userMessage = userPromptTemplate.createMessage();
 
-        // setto prompt logico prima di richiesta utente con nome
+        // setto prompt del systema prima di richiesta utente con nome
         var systemText = """
             You are a helpful AI assistant that helps people find information of about some items . Your name is {name}
             In your first response, greet the user, quick summary of answer and then do not repeat it. 
@@ -41,7 +41,7 @@ public class GenericiInteraction {
             """;
 
         var systemPromptTemplate = new SystemPromptTemplate(systemText);
-        // settto il {name} all'interno del sstemTexg
+        // settto il {name} all'interno del systemText
         var systemMessage = systemPromptTemplate.createMessage(Map.of("name", "Friday"));
         // setto prompt finale
         var prompt = new Prompt(List.of(userMessage, systemMessage));

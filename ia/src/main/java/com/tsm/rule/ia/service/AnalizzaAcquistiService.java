@@ -1,9 +1,7 @@
 package com.tsm.rule.ia.service;
 
 import com.tsm.rule.ia.io.request.AcquistoPokemonRequest;
-import com.tsm.rule.ia.io.request.VenditaPokemonRequest;
 import com.tsm.rule.ia.io.response.AcquistiPokemonResponse;
-import com.tsm.rule.ia.io.response.VenditePokemonResponse;
 import com.tsm.rule.ia.llminteraction.GenericiInteraction;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
